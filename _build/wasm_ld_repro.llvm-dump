@@ -1,0 +1,132 @@
+
+_build/wasm_ld_repro.o:	file format wasm
+
+Disassembly of section CODE:
+
+0000000000000000 <CODE>:
+        # 7 functions in section.
+
+0000000000000001 <_ZN4core3fmt5Write10write_char17h77bc1ba33aad0a7bE>:
+
+       3: 41 00        	i32.const	0
+       5: 0b           	end
+
+0000000000000006 <_ZN4core3fmt5Write9write_fmt17hb553bb9f083ce319E>:
+
+       8: 20 00        	local.get	0
+       a: 23 80 80 80 80 00    	global.get	0
+		000000000000000b:  R_WASM_GLOBAL_INDEX_LEB	__memory_base+0
+      10: 42 d8 80 80 80 80 80 80 80 80 00     	i64.const	88
+		0000000000000011:  R_WASM_MEMORY_ADDR_REL_SLEB64	.Lvtable.1+0
+      1b: 7c           	i64.add 
+      1c: 20 01        	local.get	1
+      1e: 10 80 80 80 80 00    	call	0
+		000000000000001f:  R_WASM_FUNCTION_INDEX_LEB	_ZN4core3fmt5write17h226782e17bac321dE+0
+      24: 0b           	end
+
+0000000000000025 <_ZN4core3ptr37drop_in_place$LT$core..fmt..Error$GT$17h724ca4a6ca415d55E>:
+
+      27: 0b           	end
+
+0000000000000028 <_ZN53_$LT$core..fmt..Error$u20$as$u20$core..fmt..Debug$GT$3fmt17h64199e53e78c0bceE>:
+
+      2a: 20 01        	local.get	1
+      2c: 23 80 80 80 80 00    	global.get	0
+		000000000000002d:  R_WASM_GLOBAL_INDEX_LEB	__memory_base+0
+      32: 42 d0 80 80 80 80 80 80 80 80 00     	i64.const	80
+		0000000000000033:  R_WASM_MEMORY_ADDR_REL_SLEB64	.Lalloc_99ac8a81a24cac863217ce4a5cbfabea+0
+      3d: 7c           	i64.add 
+      3e: 42 05        	i64.const	5
+      40: 10 81 80 80 80 00    	call	1
+		0000000000000041:  R_WASM_FUNCTION_INDEX_LEB	_ZN4core3fmt9Formatter9write_str17hc22d74c16e1de03eE+0
+      46: 0b           	end
+
+0000000000000047 <rust_begin_unwind>:
+
+      49: 03 40        	loop    	                        # label0:
+      4b: 0c 00        	br      	0                       # 0: up to label0
+      4d: 0b           	end
+      4e: 0b           	end
+
+000000000000004f <bug_repro>:
+        .local i64, i64
+      54: 23 81 80 80 80 00    	global.get	1
+		0000000000000055:  R_WASM_GLOBAL_INDEX_LEB	__stack_pointer+0
+      5a: 42 c0 00     	i64.const	64
+      5d: 7d           	i64.sub 
+      5e: 22 00        	local.tee	0
+      60: 24 81 80 80 80 00    	global.set	1
+		0000000000000061:  R_WASM_GLOBAL_INDEX_LEB	__stack_pointer+0
+      66: 20 00        	local.get	0
+      68: 42 00        	i64.const	0
+      6a: 37 03 20     	i64.store	32
+      6d: 20 00        	local.get	0
+      6f: 42 01        	i64.const	1
+      71: 37 03 08     	i64.store	8
+      74: 20 00        	local.get	0
+      76: 42 01        	i64.const	1
+      78: 37 03 18     	i64.store	24
+      7b: 20 00        	local.get	0
+      7d: 23 82 80 80 80 00    	global.get	2
+		000000000000007e:  R_WASM_GLOBAL_INDEX_LEB	__table_base+0
+      83: 42 80 80 80 80 80 80 80 80 80 00     	i64.const	0
+		0000000000000084:  R_WASM_TABLE_INDEX_REL_SLEB64	_ZN4core3fmt5float52_$LT$impl$u20$core..fmt..Display$u20$for$u20$f64$GT$3fmt17h5ddc206ceda9c53aE+0
+      8e: 7c           	i64.add 
+      8f: 37 03 38     	i64.store	56
+      92: 20 00        	local.get	0
+      94: 23 80 80 80 80 00    	global.get	0
+		0000000000000095:  R_WASM_GLOBAL_INDEX_LEB	__memory_base+0
+      9a: 22 01        	local.tee	1
+      9c: 42 98 81 80 80 80 80 80 80 80 00     	i64.const	152
+		000000000000009d:  R_WASM_MEMORY_ADDR_REL_SLEB64	.Lalloc_53973d2fe29b4adba8bb7390b5678745+0
+      a7: 7c           	i64.add 
+      a8: 37 03 30     	i64.store	48
+      ab: 20 00        	local.get	0
+      ad: 20 01        	local.get	1
+      af: 42 88 81 80 80 80 80 80 80 80 00     	i64.const	136
+		00000000000000b0:  R_WASM_MEMORY_ADDR_REL_SLEB64	.Lalloc_b99730e73100e73a81f4fbfe74b3821d+0
+      ba: 7c           	i64.add 
+      bb: 37 03 00     	i64.store	0
+      be: 20 00        	local.get	0
+      c0: 20 00        	local.get	0
+      c2: 42 30        	i64.const	48
+      c4: 7c           	i64.add 
+      c5: 37 03 10     	i64.store	16
+      c8: 02 40        	block   	
+      ca: 20 00        	local.get	0
+      cc: 20 00        	local.get	0
+      ce: 10 85 80 80 80 00    	call	5
+		00000000000000cf:  R_WASM_FUNCTION_INDEX_LEB	_ZN4core3fmt5Write9write_fmt17hb553bb9f083ce319E+0
+      d4: 45           	i32.eqz
+      d5: 0d 00        	br_if   	0                       # 0: down to label1
+      d7: 23 80 80 80 80 00    	global.get	0
+		00000000000000d8:  R_WASM_GLOBAL_INDEX_LEB	__memory_base+0
+      dd: 22 01        	local.tee	1
+      df: 42 80 80 80 80 80 80 80 80 80 00     	i64.const	0
+		00000000000000e0:  R_WASM_MEMORY_ADDR_REL_SLEB64	.Lalloc_00ae4b301f7fab8ac9617c03fcbd7274+0
+      ea: 7c           	i64.add 
+      eb: 42 2b        	i64.const	43
+      ed: 20 00        	local.get	0
+      ef: 20 01        	local.get	1
+      f1: 42 b0 80 80 80 80 80 80 80 80 00     	i64.const	48
+		00000000000000f2:  R_WASM_MEMORY_ADDR_REL_SLEB64	.Lvtable.0+0
+      fc: 7c           	i64.add 
+      fd: 20 01        	local.get	1
+      ff: 42 b0 81 80 80 80 80 80 80 80 00     	i64.const	176
+		0000000000000100:  R_WASM_MEMORY_ADDR_REL_SLEB64	.Lalloc_b2c36ecd0b2ba566916e7faeaae9daa3+0
+     10a: 7c           	i64.add 
+     10b: 10 83 80 80 80 00    	call	3
+		000000000000010c:  R_WASM_FUNCTION_INDEX_LEB	_ZN4core6result13unwrap_failed17h2409a90f1a5cbc71E+0
+     111: 00           	unreachable
+     112: 0b           	end
+     113: 20 00        	local.get	0
+     115: 42 c0 00     	i64.const	64
+     118: 7c           	i64.add 
+     119: 24 81 80 80 80 00    	global.set	1
+		000000000000011a:  R_WASM_GLOBAL_INDEX_LEB	__stack_pointer+0
+     11f: 0b           	end
+
+0000000000000120 <_ZN65_$LT$wasm_ld_repro..TestFormatter$u20$as$u20$core..fmt..Write$GT$9write_str17h77802b90e1389266E>:
+
+     122: 41 00        	i32.const	0
+     124: 0b           	end
