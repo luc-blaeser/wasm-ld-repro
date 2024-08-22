@@ -1,6 +1,6 @@
 # wasm-ld-repro
 
-(See also [original issue](mini_repro.ll) observed with Rust library compiled to shared Wasm64).
+(See also [original issue](original_issue.md) observed with Rust library compiled to shared Wasm64).
 
 ## LLVM IR
 
