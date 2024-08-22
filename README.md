@@ -2,8 +2,6 @@
 
 Result artifacts in `/_build` produced by `make build`.
 
-The problem is potentially the emission of LLVM IR files by Rust and their separate compilation.
-
 ## LLVM IR
 
 File [_build/combined.ll](_build/combined.ll)
