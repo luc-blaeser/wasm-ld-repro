@@ -1,5 +1,7 @@
 # wasm-ld-repro
 
+(See also [original issue](mini_repro.ll) observed with Rust library compiled to shared Wasm64).
+
 ## LLVM IR
 
 [mini_repro.ll](mini_repro.ll)
@@ -35,7 +37,7 @@ See [mini_repro.llvm-dump](mini_repro.llvm-dump)
 ## Wasm objdump
 
 
-See [mini_repro.wasm-objdump](mini_repro.llvm-dump)
+See [mini_repro.wasm-objdump](mini_repro.wasm-objdump)
 
 **no elements**
 
