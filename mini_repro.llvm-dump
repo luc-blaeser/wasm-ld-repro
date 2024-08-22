@@ -4,44 +4,94 @@ mini_repro.o:	file format wasm
 Disassembly of section CODE:
 
 0000000000000000 <CODE>:
-        # 1 functions in section.
+        # 4 functions in section.
 
 0000000000000001 <bug_repro>:
-        .local i64, i64
-       5: 23 80 80 80 80 00    	global.get	0
-		0000000000000006:  R_WASM_GLOBAL_INDEX_LEB	__stack_pointer+0
-       b: 42 10        	i64.const	16
-       d: 7d           	i64.sub 
-       e: 22 00        	local.tee	0
-      10: 24 80 80 80 80 00    	global.set	0
-		0000000000000011:  R_WASM_GLOBAL_INDEX_LEB	__stack_pointer+0
-      16: 20 00        	local.get	0
-      18: 23 81 80 80 80 00    	global.get	1
-		0000000000000019:  R_WASM_GLOBAL_INDEX_LEB	__table_base+0
-      1e: 22 01        	local.tee	1
-      20: 42 80 80 80 80 80 80 80 80 80 00     	i64.const	0
-		0000000000000021:  R_WASM_TABLE_INDEX_REL_SLEB64	test_function1+0
-      2b: 7c           	i64.add 
-      2c: 37 03 08     	i64.store	8
-      2f: 20 00        	local.get	0
-      31: 42 08        	i64.const	8
-      33: 7c           	i64.add 
-      34: 10 81 80 80 80 00    	call	1
-		0000000000000035:  R_WASM_FUNCTION_INDEX_LEB	test_repro+0
-      3a: 20 00        	local.get	0
-      3c: 20 01        	local.get	1
-      3e: 42 81 80 80 80 80 80 80 80 80 00     	i64.const	1
-		000000000000003f:  R_WASM_TABLE_INDEX_REL_SLEB64	test_function2+0
-      49: 7c           	i64.add 
-      4a: 37 03 08     	i64.store	8
-      4d: 20 00        	local.get	0
-      4f: 42 08        	i64.const	8
-      51: 7c           	i64.add 
-      52: 10 81 80 80 80 00    	call	1
-		0000000000000053:  R_WASM_FUNCTION_INDEX_LEB	test_repro+0
-      58: 20 00        	local.get	0
-      5a: 42 10        	i64.const	16
-      5c: 7c           	i64.add 
-      5d: 24 80 80 80 80 00    	global.set	0
-		000000000000005e:  R_WASM_GLOBAL_INDEX_LEB	__stack_pointer+0
-      63: 0b           	end
+        .local i64, i64, i64, i64, i64, i64, i64, i64, i64, i64, i64, i64, i64, i64, i64
+       6: 23 80 80 80 80 00    	global.get	0
+		0000000000000007:  R_WASM_GLOBAL_INDEX_LEB	__stack_pointer+0
+       c: 21 00        	local.set	0
+       e: 42 10        	i64.const	16
+      10: 21 01        	local.set	1
+      12: 20 00        	local.get	0
+      14: 20 01        	local.get	1
+      16: 7d           	i64.sub 
+      17: 21 02        	local.set	2
+      19: 20 02        	local.get	2
+      1b: 24 80 80 80 80 00    	global.set	0
+		000000000000001c:  R_WASM_GLOBAL_INDEX_LEB	__stack_pointer+0
+      21: 42 80 80 80 80 80 80 80 80 80 00     	i64.const	0
+		0000000000000022:  R_WASM_TABLE_INDEX_REL_SLEB64	test_function1+0
+      2c: 21 03        	local.set	3
+      2e: 23 81 80 80 80 00    	global.get	1
+		000000000000002f:  R_WASM_GLOBAL_INDEX_LEB	__table_base+0
+      34: 21 04        	local.set	4
+      36: 20 04        	local.get	4
+      38: 20 03        	local.get	3
+      3a: 7c           	i64.add 
+      3b: 21 05        	local.set	5
+      3d: 20 02        	local.get	2
+      3f: 20 05        	local.get	5
+      41: 37 03 08     	i64.store	8
+      44: 42 08        	i64.const	8
+      46: 21 06        	local.set	6
+      48: 20 02        	local.get	2
+      4a: 20 06        	local.get	6
+      4c: 7c           	i64.add 
+      4d: 21 07        	local.set	7
+      4f: 20 07        	local.get	7
+      51: 10 82 80 80 80 00    	call	2
+		0000000000000052:  R_WASM_FUNCTION_INDEX_LEB	test_repro+0
+      57: 42 81 80 80 80 80 80 80 80 80 00     	i64.const	1
+		0000000000000058:  R_WASM_TABLE_INDEX_REL_SLEB64	test_function2+0
+      62: 21 08        	local.set	8
+      64: 20 04        	local.get	4
+      66: 20 08        	local.get	8
+      68: 7c           	i64.add 
+      69: 21 09        	local.set	9
+      6b: 20 02        	local.get	2
+      6d: 20 09        	local.get	9
+      6f: 37 03 08     	i64.store	8
+      72: 42 08        	i64.const	8
+      74: 21 0a        	local.set	10
+      76: 20 02        	local.get	2
+      78: 20 0a        	local.get	10
+      7a: 7c           	i64.add 
+      7b: 21 0b        	local.set	11
+      7d: 20 0b        	local.get	11
+      7f: 21 0c        	local.set	12
+      81: 20 0c        	local.get	12
+      83: 10 82 80 80 80 00    	call	2
+		0000000000000084:  R_WASM_FUNCTION_INDEX_LEB	test_repro+0
+      89: 42 10        	i64.const	16
+      8b: 21 0d        	local.set	13
+      8d: 20 02        	local.get	2
+      8f: 20 0d        	local.get	13
+      91: 7c           	i64.add 
+      92: 21 0e        	local.set	14
+      94: 20 0e        	local.get	14
+      96: 24 80 80 80 80 00    	global.set	0
+		0000000000000097:  R_WASM_GLOBAL_INDEX_LEB	__stack_pointer+0
+      9c: 0f           	return
+      9d: 0b           	end
+
+000000000000009e <test_function1>:
+
+      a0: 0f           	return
+      a1: 0b           	end
+
+00000000000000a2 <test_repro>:
+        .local i32
+      a6: 20 00        	local.get	0
+      a8: a7           	i32.wrap_i64
+      a9: 21 01        	local.set	1
+      ab: 20 01        	local.get	1
+      ad: 11 80 80 80 80 00 00 	call_indirect	 0
+		00000000000000ae:  R_WASM_TYPE_INDEX_LEB	0+0
+      b4: 0f           	return
+      b5: 0b           	end
+
+00000000000000b6 <test_function2>:
+
+      b8: 00           	unreachable
+      b9: 0b           	end

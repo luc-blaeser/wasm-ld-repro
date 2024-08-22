@@ -6,12 +6,12 @@ Sections:
 
    Custom start=0x0000000a end=0x00000019 (size=0x0000000f) "dylink.0"
      Type start=0x0000001b end=0x00000023 (size=0x00000008) count: 2
-   Import start=0x00000026 end=0x000000be (size=0x00000098) count: 7
- Function start=0x000000c0 end=0x000000c4 (size=0x00000004) count: 3
-   Export start=0x000000c6 end=0x000000ee (size=0x00000028) count: 2
-     Code start=0x000000f0 end=0x0000015a (size=0x0000006a) count: 3
-   Custom start=0x0000015d end=0x000001fc (size=0x0000009f) "name"
-   Custom start=0x000001fe end=0x00000234 (size=0x00000036) "target_features"
+   Import start=0x00000026 end=0x000000ad (size=0x00000087) count: 6
+ Function start=0x000000af end=0x000000b6 (size=0x00000007) count: 6
+   Export start=0x000000b8 end=0x0000010f (size=0x00000057) count: 5
+     Code start=0x00000112 end=0x000001d2 (size=0x000000c0) count: 6
+   Custom start=0x000001d5 end=0x00000294 (size=0x000000bf) "name"
+   Custom start=0x00000296 end=0x000002cc (size=0x00000036) "target_features"
 
 Section Details:
 
@@ -22,34 +22,44 @@ Custom:
  - table_size   : 0
  - table_p2align: 0
 Type[2]:
- - type[0] (i64) -> nil
- - type[1] () -> nil
-Import[7]:
+ - type[0] () -> nil
+ - type[1] (i64) -> nil
+Import[6]:
  - memory[0] pages: initial=0 i64 <- env.memory
  - table[0] type=funcref initial=0 <- env.__indirect_function_table
  - global[0] i64 mutable=1 <- env.__stack_pointer
  - global[1] i64 mutable=0 <- env.__memory_base
  - global[2] i64 mutable=0 <- env.__table_base
  - global[3] i32 mutable=0 <- env.__table_base32
- - func[0] sig=0 <test_repro> <- env.test_repro
-Function[3]:
- - func[1] sig=1 <__wasm_call_ctors>
- - func[2] sig=1 <__wasm_apply_data_relocs>
- - func[3] sig=1 <bug_repro>
-Export[2]:
- - func[2] <__wasm_apply_data_relocs> -> "__wasm_apply_data_relocs"
- - func[3] <bug_repro> -> "bug_repro"
-Code[3]:
- - func[1] size=2 <__wasm_call_ctors>
- - func[2] size=2 <__wasm_apply_data_relocs>
- - func[3] size=98 <bug_repro>
+Function[6]:
+ - func[0] sig=0 <__wasm_call_ctors>
+ - func[1] sig=0 <__wasm_apply_data_relocs>
+ - func[2] sig=0 <bug_repro>
+ - func[3] sig=0 <test_function1>
+ - func[4] sig=1 <test_repro>
+ - func[5] sig=0 <test_function2>
+Export[5]:
+ - func[1] <__wasm_apply_data_relocs> -> "__wasm_apply_data_relocs"
+ - func[2] <bug_repro> -> "bug_repro"
+ - func[3] <test_function1> -> "test_function1"
+ - func[4] <test_repro> -> "test_repro"
+ - func[5] <test_function2> -> "test_function2"
+Code[6]:
+ - func[0] size=2 <__wasm_call_ctors>
+ - func[1] size=2 <__wasm_apply_data_relocs>
+ - func[2] size=155 <bug_repro>
+ - func[3] size=3 <test_function1>
+ - func[4] size=19 <test_repro>
+ - func[5] size=3 <test_function2>
 Custom:
  - name: "name"
  - module <mini_repro.wasm>
- - func[0] <test_repro>
- - func[1] <__wasm_call_ctors>
- - func[2] <__wasm_apply_data_relocs>
- - func[3] <bug_repro>
+ - func[0] <__wasm_call_ctors>
+ - func[1] <__wasm_apply_data_relocs>
+ - func[2] <bug_repro>
+ - func[3] <test_function1>
+ - func[4] <test_repro>
+ - func[5] <test_function2>
  - global[0] <__stack_pointer>
  - global[1] <__memory_base>
  - global[2] <__table_base>
@@ -62,40 +72,84 @@ Custom:
 
 Code Disassembly:
 
-0000f2 func[1] <__wasm_call_ctors>:
- 0000f3: 0b                         | end
-0000f5 func[2] <__wasm_apply_data_relocs>:
- 0000f6: 0b                         | end
-0000f8 func[3] <bug_repro>:
- 0000f9: 02 7e                      | local[0..1] type=i64
- 0000fb: 23 80 80 80 80 00          | global.get 0 <__stack_pointer>
- 000101: 42 10                      | i64.const 16
- 000103: 7d                         | i64.sub
- 000104: 22 00                      | local.tee 0
- 000106: 24 80 80 80 80 00          | global.set 0 <__stack_pointer>
- 00010c: 20 00                      | local.get 0
- 00010e: 23 82 80 80 80 00          | global.get 2 <__table_base>
- 000114: 22 01                      | local.tee 1
- 000116: 42 80 80 80 80 80 80 80 80 | i64.const 0
- 00011f: 80 00                      | 
- 000121: 7c                         | i64.add
- 000122: 37 03 08                   | i64.store 3 8
- 000125: 20 00                      | local.get 0
- 000127: 42 08                      | i64.const 8
- 000129: 7c                         | i64.add
- 00012a: 10 80 80 80 80 00          | call 0 <test_repro>
- 000130: 20 00                      | local.get 0
- 000132: 20 01                      | local.get 1
- 000134: 42 80 80 80 80 80 80 80 80 | i64.const 0
- 00013d: 80 00                      | 
- 00013f: 7c                         | i64.add
- 000140: 37 03 08                   | i64.store 3 8
- 000143: 20 00                      | local.get 0
- 000145: 42 08                      | i64.const 8
- 000147: 7c                         | i64.add
- 000148: 10 80 80 80 80 00          | call 0 <test_repro>
- 00014e: 20 00                      | local.get 0
- 000150: 42 10                      | i64.const 16
+000114 func[0] <__wasm_call_ctors>:
+ 000115: 0b                         | end
+000117 func[1] <__wasm_apply_data_relocs>:
+ 000118: 0b                         | end
+00011b func[2] <bug_repro>:
+ 00011c: 0f 7e                      | local[0..14] type=i64
+ 00011e: 23 80 80 80 80 00          | global.get 0 <__stack_pointer>
+ 000124: 21 00                      | local.set 0
+ 000126: 42 10                      | i64.const 16
+ 000128: 21 01                      | local.set 1
+ 00012a: 20 00                      | local.get 0
+ 00012c: 20 01                      | local.get 1
+ 00012e: 7d                         | i64.sub
+ 00012f: 21 02                      | local.set 2
+ 000131: 20 02                      | local.get 2
+ 000133: 24 80 80 80 80 00          | global.set 0 <__stack_pointer>
+ 000139: 42 80 80 80 80 80 80 80 80 | i64.const 0
+ 000142: 80 00                      | 
+ 000144: 21 03                      | local.set 3
+ 000146: 23 82 80 80 80 00          | global.get 2 <__table_base>
+ 00014c: 21 04                      | local.set 4
+ 00014e: 20 04                      | local.get 4
+ 000150: 20 03                      | local.get 3
  000152: 7c                         | i64.add
- 000153: 24 80 80 80 80 00          | global.set 0 <__stack_pointer>
- 000159: 0b                         | end
+ 000153: 21 05                      | local.set 5
+ 000155: 20 02                      | local.get 2
+ 000157: 20 05                      | local.get 5
+ 000159: 37 03 08                   | i64.store 3 8
+ 00015c: 42 08                      | i64.const 8
+ 00015e: 21 06                      | local.set 6
+ 000160: 20 02                      | local.get 2
+ 000162: 20 06                      | local.get 6
+ 000164: 7c                         | i64.add
+ 000165: 21 07                      | local.set 7
+ 000167: 20 07                      | local.get 7
+ 000169: 10 84 80 80 80 00          | call 4 <test_repro>
+ 00016f: 42 80 80 80 80 80 80 80 80 | i64.const 0
+ 000178: 80 00                      | 
+ 00017a: 21 08                      | local.set 8
+ 00017c: 20 04                      | local.get 4
+ 00017e: 20 08                      | local.get 8
+ 000180: 7c                         | i64.add
+ 000181: 21 09                      | local.set 9
+ 000183: 20 02                      | local.get 2
+ 000185: 20 09                      | local.get 9
+ 000187: 37 03 08                   | i64.store 3 8
+ 00018a: 42 08                      | i64.const 8
+ 00018c: 21 0a                      | local.set 10
+ 00018e: 20 02                      | local.get 2
+ 000190: 20 0a                      | local.get 10
+ 000192: 7c                         | i64.add
+ 000193: 21 0b                      | local.set 11
+ 000195: 20 0b                      | local.get 11
+ 000197: 21 0c                      | local.set 12
+ 000199: 20 0c                      | local.get 12
+ 00019b: 10 84 80 80 80 00          | call 4 <test_repro>
+ 0001a1: 42 10                      | i64.const 16
+ 0001a3: 21 0d                      | local.set 13
+ 0001a5: 20 02                      | local.get 2
+ 0001a7: 20 0d                      | local.get 13
+ 0001a9: 7c                         | i64.add
+ 0001aa: 21 0e                      | local.set 14
+ 0001ac: 20 0e                      | local.get 14
+ 0001ae: 24 80 80 80 80 00          | global.set 0 <__stack_pointer>
+ 0001b4: 0f                         | return
+ 0001b5: 0b                         | end
+0001b7 func[3] <test_function1>:
+ 0001b8: 0f                         | return
+ 0001b9: 0b                         | end
+0001bb func[4] <test_repro>:
+ 0001bc: 01 7f                      | local[1] type=i32
+ 0001be: 20 00                      | local.get 0
+ 0001c0: a7                         | i32.wrap_i64
+ 0001c1: 21 01                      | local.set 1
+ 0001c3: 20 01                      | local.get 1
+ 0001c5: 11 80 80 80 80 00 00       | call_indirect 0 <env.__indirect_function_table> (type 0)
+ 0001cc: 0f                         | return
+ 0001cd: 0b                         | end
+0001cf func[5] <test_function2>:
+ 0001d0: 00                         | unreachable
+ 0001d1: 0b                         | end
