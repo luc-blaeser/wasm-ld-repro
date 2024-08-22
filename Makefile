@@ -22,19 +22,22 @@ all: build
 llvmir:
 	rm -rf $(WASM64_RELEASE_FOLDER)
 	RUSTFLAGS="--emit=llvm-ir" cargo build --target=wasm64-unknown-unknown -Zbuild-std=core --release
-	mkdir -p $(BUILD_FOLDER)
-	cp $(DEPS_FOLDER)/core-*.ll $(BUILD_FOLDER)/core.ll
-	cp $(DEPS_FOLDER)/compiler_builtins-*.ll $(BUILD_FOLDER)/compiler_builtins.ll
-	cp $(DEPS_FOLDER)/wasm_ld_repro-*.ll $(BUILD_FOLDER)/wasm_ld_repro.ll
+	mkdir -p $(BUILD_FOLDER)/partial
+	cp $(DEPS_FOLDER)/core-*.ll $(BUILD_FOLDER)/partial/core.ll
+	cp $(DEPS_FOLDER)/compiler_builtins-*.ll $(BUILD_FOLDER)/partial/compiler_builtins.ll
+	cp $(DEPS_FOLDER)/wasm_ld_repro-*.ll $(BUILD_FOLDER)/partial/wasm_ld_repro.ll
 	
 
 build: llvmir
-	$(CLANG) -o $(BUILD_FOLDER)/core.o $(BUILD_FOLDER)/core.ll
-	$(CLANG) -o $(BUILD_FOLDER)/compiler_builtins.o $(BUILD_FOLDER)/compiler_builtins.ll
-	$(CLANG) -o $(BUILD_FOLDER)/wasm_ld_repro.o $(BUILD_FOLDER)/wasm_ld_repro.ll
-	llvm-objdump -dr $(BUILD_FOLDER)/wasm_ld_repro.o > $(BUILD_FOLDER)/wasm_ld_repro.llvm-dump
-	$(WASM_LD) -o $(BUILD_FOLDER)/wasm_ld_repro.wasm $(BUILD_FOLDER)/core.o $(BUILD_FOLDER)/compiler_builtins.o $(BUILD_FOLDER)/wasm_ld_repro.o
-	wasm-objdump -h -d -x -r $(BUILD_FOLDER)/wasm_ld_repro.wasm > $(BUILD_FOLDER)/wasm_ld_repro.wasm-objdump
+	llvm-link -o $(BUILD_FOLDER)/combined.bc \
+		$(BUILD_FOLDER)/partial/core.ll \
+		$(BUILD_FOLDER)/partial/compiler_builtins.ll \
+		$(BUILD_FOLDER)/partial/wasm_ld_repro.ll
+	llvm-dis $(BUILD_FOLDER)/combined.bc
+	$(CLANG) -o $(BUILD_FOLDER)/combined.o $(BUILD_FOLDER)/combined.bc
+	llvm-objdump -dr $(BUILD_FOLDER)/combined.o > $(BUILD_FOLDER)/combined.llvm-objdump
+	$(WASM_LD) -o $(BUILD_FOLDER)/output.wasm $(BUILD_FOLDER)/combined.o
+	wasm-objdump -h -d -x -r $(BUILD_FOLDER)/output.wasm > $(BUILD_FOLDER)/output.wasm-objdump
 
 clean:
 	rm -rf _build
