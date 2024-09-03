@@ -17,7 +17,7 @@ start:
 ```
 
 
-while the function is declared **`dso_local`** (in the same bitcode file!)
+while the function is declared **`dso_local`** (and only used in the same bitcode file)
 
 ```
 define dso_local noundef zeroext i1 @"_ZN4core3fmt5float52_$LT$impl$u20$core..fmt..Display$u20$for$u20$f64$GT$3fmt17h5ddc206ceda9c53aE"(ptr noalias nocapture noundef readonly align 8 dereferenceable(8) %self, ptr noalias nocapture noundef align 8 dereferenceable(64) %fmt) unnamed_addr #2 {
